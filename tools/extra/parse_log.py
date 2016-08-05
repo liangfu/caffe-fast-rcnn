@@ -12,7 +12,7 @@ import extract_seconds
 import argparse
 import csv
 from collections import OrderedDict
-
+from IPython.core.debugger import Tracer
 
 def parse_log(path_to_log):
     """Parse log file
@@ -51,22 +51,23 @@ def parse_log(path_to_log):
                 # iteration
                 continue
 
-            time = extract_seconds.extract_datetime_from_line(line,
-                                                              logfile_year)
-            seconds = (time - start_time).total_seconds()
+            if(line[0] == 'I'):
+              time = extract_seconds.extract_datetime_from_line(line,
+                                                                logfile_year)
+              seconds = (time - start_time).total_seconds()
 
-            learning_rate_match = regex_learning_rate.search(line)
-            if learning_rate_match:
-                learning_rate = float(learning_rate_match.group(1))
+              learning_rate_match = regex_learning_rate.search(line)
+              if learning_rate_match:
+                  learning_rate = float(learning_rate_match.group(1))
 
-            train_dict_list, train_row = parse_line_for_net_output(
-                regex_train_output, train_row, train_dict_list,
-                line, iteration, seconds, learning_rate
-            )
-            test_dict_list, test_row = parse_line_for_net_output(
-                regex_test_output, test_row, test_dict_list,
-                line, iteration, seconds, learning_rate
-            )
+              train_dict_list, train_row = parse_line_for_net_output(
+                  regex_train_output, train_row, train_dict_list,
+                  line, iteration, seconds, learning_rate
+              )
+              test_dict_list, test_row = parse_line_for_net_output(
+                  regex_test_output, test_row, test_dict_list,
+                  line, iteration, seconds, learning_rate
+              )
 
     fix_initial_nan_learning_rate(train_dict_list)
     fix_initial_nan_learning_rate(test_dict_list)
@@ -141,8 +142,9 @@ def save_csv_files(logfile_path, output_dir, train_dict_list, test_dict_list,
     train_filename = os.path.join(output_dir, log_basename + '.train')
     write_csv(train_filename, train_dict_list, delimiter, verbose)
 
-    test_filename = os.path.join(output_dir, log_basename + '.test')
-    write_csv(test_filename, test_dict_list, delimiter, verbose)
+    if(len(test_dict_list) > 0):
+      test_filename = os.path.join(output_dir, log_basename + '.test')
+      write_csv(test_filename, test_dict_list, delimiter, verbose)
 
 
 def write_csv(output_filename, dict_list, delimiter, verbose=False):

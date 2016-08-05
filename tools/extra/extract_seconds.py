@@ -2,21 +2,25 @@
 import datetime
 import os
 import sys
+from IPython.core.debugger import Tracer
 
 def extract_datetime_from_line(line, year):
     # Expected format: I0210 13:39:22.381027 25210 solver.cpp:204] Iteration 100, lr = 0.00992565
-    line = line.strip().split()
-    month = int(line[0][1:3])
-    day = int(line[0][3:])
-    timestamp = line[1]
-    pos = timestamp.rfind('.')
-    ts = [int(x) for x in timestamp[:pos].split(':')]
-    hour = ts[0]
-    minute = ts[1]
-    second = ts[2]
-    microsecond = int(timestamp[pos + 1:])
-    dt = datetime.datetime(year, month, day, hour, minute, second, microsecond)
-    return dt
+    try:
+      line = line.strip().split()
+      month = int(line[0][1:3])
+      day = int(line[0][3:])
+      timestamp = line[1]
+      pos = timestamp.rfind('.')
+      ts = [int(x) for x in timestamp[:pos].split(':')]
+      hour = ts[0]
+      minute = ts[1]
+      second = ts[2]
+      microsecond = int(timestamp[pos + 1:])
+      dt = datetime.datetime(year, month, day, hour, minute, second, microsecond)
+      return dt
+    except:
+      Tracer()()
 
 
 def get_log_created_year(input_file):
@@ -35,7 +39,8 @@ def get_start_time(line_iterable, year):
     start_datetime = None
     for line in line_iterable:
         line = line.strip()
-        if line.find('Solving') != -1:
+        # if line.find('Solving') != -1:
+        if line.find('Iteration') != -1:
             start_datetime = extract_datetime_from_line(line, year)
             break
     return start_datetime
