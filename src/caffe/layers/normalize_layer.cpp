@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "caffe/layer.hpp"
+#include "caffe/filler.hpp"
 #include "caffe/util/math_functions.hpp"
 #include "caffe/layers/normalize_layer.hpp"
 

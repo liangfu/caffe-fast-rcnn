@@ -6,7 +6,7 @@
 #include "caffe/layer.hpp"
 #include "caffe/util/io.hpp"
 #include "caffe/util/math_functions.hpp"
-#include "caffe/layers/rank_accuracy_layer.hpp"
+#include "caffe/layers/ranking_accuracy_layer.hpp"
 
 namespace caffe {
 

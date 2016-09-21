@@ -29,10 +29,12 @@ class UnPoolingLayer : public Layer<Dtype> {
   virtual inline int MinBottomBlobs() const { return 1; }
   virtual inline int MaxBottomBlobs() const { return 2; }
   virtual inline int ExactNumTopBlobs() const { return 1; }
+  /*
   virtual inline DiagonalAffineMap<Dtype> coord_map() {
     return FilterMap<Dtype>(out_kernel_h_, out_kernel_w_, out_stride_h_,
                             out_stride_w_, out_pad_h_, out_pad_w_);
   }
+  */
 
  protected:
   virtual void Forward_cpu(const vector<Blob<Dtype>*>& bottom,

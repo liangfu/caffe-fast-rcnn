@@ -136,6 +136,9 @@ class LayerRegisterer {
   }                                                                            \
   REGISTER_LAYER_CREATOR(type, Creator_##type##Layer)
 
+int foo();
+static int dummy = foo();
+
 }  // namespace caffe
 
 #endif  // CAFFE_LAYER_FACTORY_H_

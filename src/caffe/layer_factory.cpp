@@ -257,4 +257,6 @@ REGISTER_LAYER_CREATOR(Python, GetPythonLayer);
 
 // Layers that use their constructor as their default creator should be
 // registered in their corresponding cpp files. Do not register them here.
+
+int foo() {return 0;}
 }  // namespace caffe
