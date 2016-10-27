@@ -53,6 +53,7 @@ class SoftmaxWithLossLayer : public LossLayer<Dtype> {
     */
   explicit SoftmaxWithLossLayer(const LayerParameter& param)
       : LossLayer<Dtype>(param) {}
+  ~SoftmaxWithLossLayer();
   virtual void LayerSetUp(const vector<Blob<Dtype>*>& bottom,
       const vector<Blob<Dtype>*>& top);
   virtual void Reshape(const vector<Blob<Dtype>*>& bottom,
@@ -121,6 +122,9 @@ class SoftmaxWithLossLayer : public LossLayer<Dtype> {
   int ignore_label_;
   /// How to normalize the output loss.
   LossParameter_NormalizationMode normalization_;
+  // blob storing sample weights
+  Blob<Dtype> *sample_weight_blob;
+  bool free_sample_weight_blob;
 
   int softmax_axis_, outer_num_, inner_num_;
 };
