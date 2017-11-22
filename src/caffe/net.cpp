@@ -654,6 +654,13 @@ void Net<Dtype>::InputDebugInfo(const int input_id) {
       << "Input " << blob_name << " data: " << data_abs_val_mean;
 }
 
+template<typename T>
+std::ostream &operator <<(std::ostream &os, const std::vector<T> &v) {
+  using namespace std;
+  copy(v.begin(), v.end(), ostream_iterator<T>(os, " "));
+  return os;
+}
+  
 template <typename Dtype>
 void Net<Dtype>::ForwardDebugInfo(const int layer_id) {
   for (int top_id = 0; top_id < top_vecs_[layer_id].size(); ++top_id) {
@@ -664,7 +671,8 @@ void Net<Dtype>::ForwardDebugInfo(const int layer_id) {
         << "    [Forward] "
         << "Layer " << layer_names_[layer_id]
         << ", top blob " << blob_name
-        << " data: " << data_abs_val_mean;
+        << ", shape: " << blob.shape()
+        << ", data: " << data_abs_val_mean;
   }
   for (int param_id = 0; param_id < layers_[layer_id]->blobs().size();
        ++param_id) {
@@ -676,7 +684,8 @@ void Net<Dtype>::ForwardDebugInfo(const int layer_id) {
         << "    [Forward] "
         << "Layer " << layer_names_[layer_id]
         << ", param blob " << blob_name
-        << " data: " << data_abs_val_mean;
+        << ", shape: " << blob.shape()
+        << ", data: " << data_abs_val_mean;
   }
 }
 
