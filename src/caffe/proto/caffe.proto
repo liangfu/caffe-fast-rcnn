@@ -85,7 +85,7 @@ message NetParameter {
 
   // Print debugging information about results while running Net::Forward,
   // Net::Backward, and Net::Update.
-  optional bool debug_info = 7 [default = true];
+  optional bool debug_info = 7 [default = false];
 
   // The layers that make up the net.  Each of their configurations, including
   // connectivity and behavior, is specified as a LayerParameter.
@@ -223,7 +223,7 @@ message SolverParameter {
 
   // If true, print information about the state of the net that may help with
   // debugging learning problems.
-  optional bool debug_info = 23 [default = true];
+  optional bool debug_info = 23 [default = false];
 
   // If false, don't save a snapshot after training finishes.
   optional bool snapshot_after_train = 28 [default = true];
